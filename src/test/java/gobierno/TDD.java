@@ -20,6 +20,7 @@ public class TDD {
     @Test
     public void testAutorizacionSalidaCalle() {
 
+        
         Assert.assertFalse(puedeSalir("16014113-1",isFinDeSemana("Lunes") , 0, "Peñaflor"));
         Assert.assertTrue(puedeSalir("16014113-1", isFinDeSemana("Lunes"), 10, "Peñaflor"));
         Assert.assertFalse(puedeSalir("16014113-1", isFinDeSemana("Jueves"), 10, "Concepcion"));
@@ -32,14 +33,19 @@ public class TDD {
     private boolean puedeSalir(String rutPersona, boolean isFinDeSemana, int hora, String comuna) {
 
         if (isTieneCovidOSospechoso(rutPersona)) {
+            //si tiene codiv, se queda en casa
             return false;
         } else if (hora >= 22 || hora < 5) {
+            //si es toque de queda, se queda en casa
             return false;
         } else if (isComunaCuarentena(comuna)) {
+            //si la comuna esta en cuarentena, se queda en casa
             return false;
         } else if (isComunaFase2(comuna) && isFinDeSemana) {
+            //si esta en fase2 y es fin de semana, se queda en casa
             return false;
         } else {
+            //libre
             return true;
         }
     }
