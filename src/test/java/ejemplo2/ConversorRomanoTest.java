@@ -99,10 +99,40 @@ public class ConversorRomanoTest {
         Assert.assertEquals("CCCXCIX", conversor(399));
         Assert.assertEquals("CD", conversor(400));
         Assert.assertEquals("CDX", conversor(410));
+        Assert.assertEquals("CDL", conversor(450));
+        Assert.assertEquals("CDLXXX", conversor(480));
+        Assert.assertEquals("CDXCIX", conversor(499));
+        Assert.assertEquals("D", conversor(500));
+        Assert.assertEquals("DX", conversor(510));
+        Assert.assertEquals("DLXXX", conversor(580));
+        Assert.assertEquals("DXCIX", conversor(599));
+        Assert.assertEquals("DC", conversor(600));
+        Assert.assertEquals("DCX", conversor(610));
+        Assert.assertEquals("DCL", conversor(650));
+        Assert.assertEquals("DCXCV", conversor(695));
+        Assert.assertEquals("DCC", conversor(700));
+        Assert.assertEquals("DCCC", conversor(800));
+        Assert.assertEquals("DCCCXL", conversor(840));
+        Assert.assertEquals("CM", conversor(900));
+        Assert.assertEquals("CML", conversor(950));
+        Assert.assertEquals("CMXCIX", conversor(999));
+        Assert.assertEquals("M", conversor(1000));
+        Assert.assertEquals("MD", conversor(1500));
+        Assert.assertEquals("MCMXCIX", conversor(1999));
+        Assert.assertEquals("MM", conversor(2000));
+        Assert.assertEquals("MMDLX", conversor(2560));
+        Assert.assertEquals("MMM", conversor(3000));
+        Assert.assertEquals("MMMD", conversor(3500));
+        Assert.assertEquals("MMMCM", conversor(3900));
+        Assert.assertEquals("MMMCMXCIX", conversor(3999));
 
     }
 
     private String token(String old, int n) {
+
+        if (n >= 1000) {
+            return duplicar("M", n / 1000) + token(old, n % 1000);
+        }
         if (n == 0) {
             return old;
         } else if (n == 1) {
@@ -129,6 +159,7 @@ public class ConversorRomanoTest {
 
             String letra = "";
             String comodin = "";
+            boolean aproximarUp = false;
 
             int divisor = 0;
             if (n >= 10 && n < 50) {
@@ -140,12 +171,28 @@ public class ConversorRomanoTest {
             } else if (n >= 90 && n <= 400) {
                 letra = "C";
                 divisor = 100;
+            } else if (n < 500) {
+                letra = "C";
+                divisor = 500;
+                aproximarUp = true;
             } else {
                 letra = "D";
-                divisor = 500;
+                divisor = 1000;
+                aproximarUp = true;
             }
 
-            int div = (int) (n / divisor);
+            int div = 0;
+
+            if (aproximarUp) {
+                double preDiv = (double) ((double) n / (double) divisor);
+                if (preDiv > 0.0 && preDiv < 1.0 && (divisor >= 500)) {
+                    preDiv = 1.0;
+                }
+                //System.out.println("n: " + n + " dividido en : " + divisor + " = " + preDiv);
+                div = (int) preDiv;
+            } else {
+                div = (int) n / divisor;
+            }
 
             if (div > 3) {
                 //cuando llega a 40 debe aparecer el XL
@@ -158,7 +205,17 @@ public class ConversorRomanoTest {
                 comodin = "XC";
             } else if (n >= 400 && n < 500) {
                 comodin = "D";
+            } else if (n >= 600 && n < 900) {
+                int mod2 = ((n - 500) / 100);
+                comodin = duplicar("C", mod2);
+            } else if (n >= 900 && n < 1000) {
+                div = 0;
+                comodin = "CM";
             }
+            /*else if (n >= 1000) {
+                div = 0;
+                comodin = "M";                
+            }*/
 
             int mod = 0;
 
@@ -166,14 +223,16 @@ public class ConversorRomanoTest {
                 mod = 50;
             } else if (n >= 100) {
                 mod = 100;
-            }else if(n>=400 && n<500){
+            } else if (n >= 400 && n < 500) {
                 mod = 500;
+            } else if (n >= 500 && n < 1000) {
+                mod = 1000;
             } else {
                 mod = 10;
             }
 
-            //System.out.println(n + " mod " + mod);
-
+            //  System.out.println("N: " + n + " --- letra(" + div + "): " + letra + ", comodin: " + comodin + ", mod: " + mod);
+            //System.out.println(n + " mod " + mod + " dup: " + div);
             return duplicar(letra, div) + comodin + token(old, n % mod);
 
             /*String letraDuplicar = null;
