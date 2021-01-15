@@ -223,11 +223,11 @@ public class ConversorRomanoTest {
                 mod = 50;
             } else if (n >= 100) {
                 mod = 100;
-            } else if (n >= 400 && n < 500) {
+            }/* else if (n >= 400 && n < 500) {
                 mod = 500;
             } else if (n >= 500 && n < 1000) {
                 mod = 1000;
-            } else {
+            }*/ else {
                 mod = 10;
             }
 

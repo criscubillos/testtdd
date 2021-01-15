@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="ejemplo2.ConversorRomanoTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2021-01-15T03:04:20" hostname="ELGRAN.local" time="0.02">
+<testsuite name="ejemplo2.ConversorRomanoTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2021-01-15T12:18:45" hostname="ELGRAN.local" time="0.022">
   <properties/>
-  <testcase name="testIntToRoman" classname="ejemplo2.ConversorRomanoTest" time="0.02"/>
+  <testcase name="testIntToRoman" classname="ejemplo2.ConversorRomanoTest" time="0.022"/>
   <system-out><![CDATA[N 1 --> I
 N 2 --> II
 N 3 --> III
